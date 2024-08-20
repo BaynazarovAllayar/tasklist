@@ -3,7 +3,6 @@ package com.example.tasklist.web.security;
 import com.example.tasklist.domain.user.User;
 import com.example.tasklist.service.UserService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -30,7 +30,7 @@ public class JwtEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username ;
+        return username;
     }
 
     @Override

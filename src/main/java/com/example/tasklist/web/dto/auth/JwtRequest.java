@@ -11,7 +11,7 @@ import lombok.Setter;
 public class JwtRequest extends JwtResponse {
 
     @Schema(description = "email", example = "johndoe@gmail.com")
-    @NotNull(message =  "Username must be not null.")
+    @NotNull(message = "Username must be not null.")
     private String username;
 
     @Schema(description = "password", example = "12345")

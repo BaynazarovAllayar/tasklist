@@ -40,14 +40,14 @@ public class JwtTokenProvider {
     private Key key;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         this.key = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes());
     }
 
     public String createAccessToken(
             final Long userId,
             final String username,
-            final Set<Role> roles){
+            final Set<Role> roles) {
         Claims claims = (Claims) Jwts.claims().setSubject(username);
         claims.put("id", userId);
         claims.put("roles", resolveRoles(roles));
@@ -60,7 +60,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    private List<String> resolveRoles(Set<Role> roles){
+    private List<String> resolveRoles(Set<Role> roles) {
         return roles.stream()
                 .map(Enum::name)
                 .collect(Collectors.toList());
@@ -77,9 +77,10 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
-    public JwtResponse refreshUserTokens(String refreshToken){
+
+    public JwtResponse refreshUserTokens(String refreshToken) {
         JwtResponse jwtResponse = new JwtResponse();
-        if (!validateToken(refreshToken)){
+        if (!validateToken(refreshToken)) {
             throw new AccessDeniedException();
         }
         Long userId = Long.valueOf(getId(refreshToken));
@@ -100,7 +101,7 @@ public class JwtTokenProvider {
         return !claims.getBody().getExpiration().before(new Date());
     }
 
-    private String getId(final String token){
+    private String getId(final String token) {
         return Jwts
                 .parser()
                 .setSigningKey(key)
@@ -111,7 +112,7 @@ public class JwtTokenProvider {
                 .toString();
     }
 
-    private String getUsername(final String token){
+    private String getUsername(final String token) {
         return Jwts
                 .parser()
                 .setSigningKey(key)
@@ -121,7 +122,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    public Authentication getAuthentication(final String token){
+    public Authentication getAuthentication(final String token) {
         String username = getUsername(token);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
