@@ -49,7 +49,7 @@ public class ApplicationConfig {
 
     @Bean
     @SneakyThrows
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) {
+    public AuthenticationManager authenticationManager(final AuthenticationConfiguration configuration) {
         return configuration.getAuthenticationManager();
     }
 

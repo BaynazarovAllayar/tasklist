@@ -2,7 +2,7 @@
 
 This application helps you organize creating and accessing tasks for users.
 
-You can access Swagger and see all available endpoints by visiting http://localhost:8080/swagger-ui/index.html
+You can access Swagger and see all available endpoints by visiting 'http://localhost:8080/swagger-ui/index.html'
 
 ## Sequence diagram
 
@@ -44,7 +44,3 @@ To run this application you need to create '.env' file in root directory with ne
 - 'MINIO_URL' - URL of MinIO instance
 - 'MINIO_ACCESS_KEY' - access key of MinIO
 - 'MINIO_SECRET_KEY' - secret key of MinIO
-- 'SPRING_MAIL_HOST' - host of mail server
-- 'SPRING_MAIL_PORT' - port of mail server
-- 'SPRING_MAIL_USERNAME' - username of mail server
-- 'SPRING_MAIL_PASSWORD' - password of mail server
