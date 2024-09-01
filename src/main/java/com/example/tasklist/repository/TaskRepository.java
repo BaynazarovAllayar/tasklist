@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
+
     @Query(value = """
             SELECT * FROM tasks t
             JOIN users_tasks ut ON ut.task_id = t.id
