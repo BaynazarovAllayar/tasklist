@@ -155,5 +155,4 @@ public class JwtTokenProvider {
                 userDetails.getAuthorities()
         );
     }
-
 }

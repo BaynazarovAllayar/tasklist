@@ -29,8 +29,9 @@
         <checkstyle.version>3.3.1</checkstyle.version>
         <graphql-java-kickstart.version>15.2.0</graphql-java-kickstart.version>
         <graphql-java-extended-scalars.version>22.0</graphql-java-extended-scalars.version>
-        <junit-jupiter.version>5.11.0</junit-jupiter.version>
-        <mockito.version>5.13.0</mockito.version>
+        <junit-jupiter.version>5.10.2</junit-jupiter.version>
+        <mockito.version>5.11.0</mockito.version>
+        <jacoco.version>0.8.12</jacoco.version>
     </properties>
 
     <dependencies>
@@ -77,6 +78,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.tailrocks.graphql</groupId>
             <artifactId>graphql-datetime-spring-boot-starter</artifactId>
             <version>6.0.0</version>
@@ -98,7 +109,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>org.liquibase</groupId>
@@ -184,8 +194,6 @@
             <scope>test</scope>
         </dependency>
 
-
-
     </dependencies>
 
     <build>
@@ -244,6 +252,64 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule implementation="org.jacoco.maven.RuleConfiguration">
+                                    <element>PACKAGE</element>
+                                    <limits>
+                                        <limit implementation="org.jacoco.report.check.Limit">
+                                            <counter>INSTRUCTION</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.60</minimum>
+                                        </limit>
+                                    </limits>
+                                    <includes>
+                                        <include>com.example.tasklist.service.impl</include>
+                                    </includes>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.29.1</version>
+                <configuration>
+                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
+                    <propertyFileWillOverride>false</propertyFileWillOverride>
+                    <url>jdbc:postgresql://localhost:5432/postgres</url>
+                    <username>postgres</username>
+                    <password>z7J.6q</password>
+                    <changeLogFile>src/main/resources/liquibase/db.changelog.yaml</changeLogFile>
+                </configuration>
             </plugin>
         </plugins>
     </build>

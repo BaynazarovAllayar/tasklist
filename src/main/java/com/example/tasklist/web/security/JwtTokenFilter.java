@@ -13,26 +13,28 @@ import org.springframework.web.filter.GenericFilterBean;
 @AllArgsConstructor
 public class JwtTokenFilter extends GenericFilterBean {
 
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     @SneakyThrows
-    public void doFilter(final ServletRequest servletRequest,
-                         final ServletResponse servletResponse,
-                         final FilterChain filterChain) {
+    public void doFilter(
+            final ServletRequest servletRequest,
+            final ServletResponse servletResponse,
+            final FilterChain filterChain
+    ) {
         String bearerToken = ((HttpServletRequest) servletRequest)
                 .getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            bearerToken =
-                    bearerToken.substring(7);
+            bearerToken = bearerToken.substring(7);
         }
         try {
-            if (bearerToken != null && jwtTokenProvider.isValid(bearerToken)) {
-                Authentication authentication =
-                        jwtTokenProvider.getAuthentication(bearerToken);
+            if (bearerToken != null
+                    && jwtTokenProvider.isValid(bearerToken)) {
+                Authentication authentication
+                        = jwtTokenProvider.getAuthentication(bearerToken);
                 if (authentication != null) {
-                    SecurityContextHolder
-                            .getContext().setAuthentication(authentication);
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(authentication);
                 }
             }
         } catch (Exception ignored) {
