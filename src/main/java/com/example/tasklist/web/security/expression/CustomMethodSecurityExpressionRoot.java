@@ -12,10 +12,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-
 @Setter
 @Getter
-public class CustomMethodSecurityExpressionRoot extends SecurityExpressionRoot implements MethodSecurityExpressionOperations {
+public class CustomMethodSecurityExpressionRoot
+        extends SecurityExpressionRoot
+        implements MethodSecurityExpressionOperations {
 
     private Object filterObject;
     private Object returnObject;
@@ -24,22 +25,29 @@ public class CustomMethodSecurityExpressionRoot extends SecurityExpressionRoot i
 
     private UserService userService;
 
-    public CustomMethodSecurityExpressionRoot(Authentication authentication) {
+    public CustomMethodSecurityExpressionRoot(
+            final Authentication authentication
+    ) {
         super(authentication);
     }
 
-    public boolean canAccessUser(Long id){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        JwtEntity user = (JwtEntity) authentication.getPrincipal();
+    public boolean canAccessUser(
+            final Long id
+    ) {
+        JwtEntity user = (JwtEntity) this.getPrincipal();
         Long userId = user.getId();
 
-        return userId.equals(id) || hasAnyRole(authentication, Role.ROLE_ADMIN);
+        return userId.equals(id) || hasAnyRole(Role.ROLE_ADMIN);
     }
 
-    private boolean hasAnyRole(Authentication authentication, Role... roles){
-        for (Role role : roles){
-            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
+    private boolean hasAnyRole(
+            final Role... roles
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        for (Role role : roles) {
+            SimpleGrantedAuthority authority
+                    = new SimpleGrantedAuthority(role.name());
             if (authentication.getAuthorities().contains(authority)) {
                 return true;
             }
@@ -47,33 +55,11 @@ public class CustomMethodSecurityExpressionRoot extends SecurityExpressionRoot i
         return false;
     }
 
-    public boolean canAccessTask(Long taskId){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        JwtEntity user = (JwtEntity) authentication.getPrincipal();
+    public boolean canAccessTask(final Long taskId) {
+        JwtEntity user = (JwtEntity) this.getPrincipal();
         Long id = user.getId();
 
         return userService.isTaskOwner(id, taskId);
-    }
-
-    @Override
-    public void setFilterObject(Object filterObject) {
-
-    }
-
-    @Override
-    public Object getFilterObject() {
-        return null;
-    }
-
-    @Override
-    public void setReturnObject(Object returnObject) {
-
-    }
-
-    @Override
-    public Object getReturnObject() {
-        return null;
     }
 
     @Override

@@ -1,18 +1,20 @@
 package com.example.tasklist.domain.exception;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class ExceptionBody {
 
     private final String message;
     private Map<String, String> errors;
 
-    public ExceptionBody(String message){
+    public ExceptionBody(final String message) {
         this.message = message;
     }
 
