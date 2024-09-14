@@ -22,7 +22,7 @@ We have two main classes - **User** and **Task**.
 
 **User** class represents user in this application. User can log in, create and update tasks.
 
-User can have roles - `ROLE_USER' or 'ROLE_ADMIN`.
+User can have roles - `ROLE_USER` or `ROLE_ADMIN`.
 
 **Task** class represents task in this application. Task can be created by user.
 
